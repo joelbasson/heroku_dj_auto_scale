@@ -1,0 +1,39 @@
+GIT
+  remote: git://github.com/joelbasson/delayed_job.git
+  revision: 3288c17
+  specs:
+    delayed_job (2.1.4)
+      activesupport (~> 3.0)
+      daemons
+
+PATH
+  remote: .
+  specs:
+    heroku_dj_auto_scale (0.0.4)
+      heroku
+
+GEM
+  remote: http://rubygems.org/
+  specs:
+    activesupport (3.0.5)
+    configuration (1.2.0)
+    daemons (1.1.0)
+    heroku (1.18.3)
+      launchy (~> 0.3.2)
+      rest-client (>= 1.4.0, < 1.7.0)
+    launchy (0.3.7)
+      configuration (>= 0.0.5)
+      rake (>= 0.8.1)
+    mime-types (1.16)
+    rake (0.8.7)
+    rest-client (1.6.1)
+      mime-types (>= 1.16)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  bundler (>= 1.0.0.rc.6)
+  delayed_job!
+  heroku
+  heroku_dj_auto_scale!

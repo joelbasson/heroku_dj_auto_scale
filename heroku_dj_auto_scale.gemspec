@@ -1,5 +1,6 @@
 # -*- encoding: utf-8 -*-
-require File.expand_path("../lib/heroku_dj_auto_scale/version", __FILE__)
+$:.push File.expand_path("../lib", __FILE__)  
+require "heroku_dj_auto_scale/version"
 
 Gem::Specification.new do |s|
   s.name        = "heroku_dj_auto_scale"
