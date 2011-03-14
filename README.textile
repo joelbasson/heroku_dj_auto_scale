@@ -4,6 +4,20 @@ Deroku_dj_auto_scale allows automatic scaling of Delayed Job workers on Heroku (
 
 h2. Setup
 
+Add the following to the class that will have auto-scalling DJ workers
+
+<pre>
+	class Mailer < ActionMailer::Base
+	  extend HerokuDJAutoScale
+	
+	  def my_function
+		etc
+	  end
+	
+	  ...
+	end
+</pre>
+ 
 You need to define the following variables in your config/environments/production.rb 
 
 <pre>
