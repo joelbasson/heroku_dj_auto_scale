@@ -7,8 +7,10 @@ h2. Setup
 Add the following to the class that will have auto-scalling DJ workers
 
 <pre>
+	require 'heroku_dj_auto_scale'
+	
 	class Mailer < ActionMailer::Base
-	  extend HerokuDJAutoScale
+	  extend HerokuDjAutoScale
 	
 	  def my_function
 		etc

@@ -1,4 +1,5 @@
 require 'heroku'
+require 'delayed_job'
 
 module HerokuDjAutoScale
   module Scaler
