@@ -15,7 +15,7 @@ Gem::Specification.new do |s|
   s.rubyforge_project         = "heroku_dj_auto_scale"
 
   s.add_runtime_dependency      'heroku'
-  s.add_runtime_dependency      'delayed_job', :git => 'git://github.com/joelbasson/delayed_job.git'
+  s.add_runtime_dependency      'delayed_job'
   
   s.add_development_dependency "bundler", ">= 1.0.0.rc.6"
   
