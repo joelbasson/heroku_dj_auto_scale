@@ -1,0 +1,25 @@
+h1. Heroku Delayed-Job Auto-Scale
+
+Deroku_dj_auto_scale allows automatic scaling of Delayed Job workers on Heroku (http://www.heroku.com/). The code heavily borrows from something I once came across on the internet. It also requires a custom version of delayed_job I created (https://github.com/joelbasson/delayed_job) which provides another hook signaling completion of the job. This change will hopefully be rolled into the original delayed_job from collectiveidea in the future.
+
+h2. Setup
+
+You need to define the following variables in your config/environments/production.rb 
+
+<pre>
+ENV['HEROKU_USER'] = 'yourheroku@user.com' 
+ENV['HEROKU_PASS'] = 'yourherokupassword'
+ENV['HEROKU_APP'] = 'yourappsnameinheroku'
+ENV['USE_HEROKU_SCALING'] = 'true'
+</pre>
+
+and in config/environments/development.rb set this to false
+
+<pre>
+ENV['HEROKU_USER'] = 'doesntmatter' 
+ENV['HEROKU_PASS'] = 'doesntmatter'
+ENV['HEROKU_APP'] = 'doesntmatter'
+ENV['USE_HEROKU_SCALING'] = 'false'
+</pre>
+
+Enjoy
