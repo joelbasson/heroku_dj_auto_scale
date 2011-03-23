@@ -4,14 +4,19 @@ require 'delayed_job'
 module HerokuDjAutoScale
   module Scaler
     class << self
-      @@heroku = Heroku::Client.new(ENV['HEROKU_USER'], ENV['HEROKU_PASS']) if ENV['USE_HEROKU_SCALING'] == 'true'
-
+      
+      def get_heroku
+        @heroku = Heroku::Client.new(ENV['HEROKU_USER'], ENV['HEROKU_PASS']) if ENV['USE_HEROKU_SCALING'] == 'true'
+      end
+        
       def workers
-        ENV['USE_HEROKU_SCALING'] == 'true' ? @@heroku.info(ENV['HEROKU_APP'])[:workers].to_i : 1
+        get_heroku
+        ENV['USE_HEROKU_SCALING'] == 'true' ? @heroku.info(ENV['HEROKU_APP'])[:workers].to_i : 1
       end
 
       def workers=(qty)
-        @@heroku.set_workers(ENV['HEROKU_APP'], qty) if ENV['USE_HEROKU_SCALING'] == 'true'
+        get_heroku
+        @heroku.set_workers(ENV['HEROKU_APP'], qty) if ENV['USE_HEROKU_SCALING'] == 'true'
       end
 
       def job_count
