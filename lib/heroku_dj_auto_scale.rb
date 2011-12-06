@@ -19,7 +19,7 @@ module HerokuDjAutoScale
         end
       end
       
-      def get_workers
+      def workers
         if ENV['USE_HEROKU_SCALING'] == 'true'
           if stack == "cedar"
             heroku.ps(ENV['HEROKU_APP']).count { |p| p["process"] =~ /worker\.\d?/ }
@@ -59,15 +59,19 @@ module HerokuDjAutoScale
   def enqueue(*args)
     [
       {
+        :workers => 0, # This many workers
+        :job_count => 0 # For this many jobs or more, until the next level
+      },
+      {
         :workers => 1, # This many workers
         :job_count => 1 # For this many jobs or more, until the next level
       },
       {
-        :workers => 1,
+        :workers => 2,
         :job_count => 400
       },
       {
-        :workers => 1,
+        :workers => 3,
         :job_count => 2500
       }
     ].reverse_each do |scale_info|
