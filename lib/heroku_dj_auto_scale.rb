@@ -5,18 +5,40 @@ module HerokuDjAutoScale
   module Scaler
     class << self
       
-      def get_heroku
-        @heroku = Heroku::Client.new(ENV['HEROKU_USER'], ENV['HEROKU_PASS']) if ENV['USE_HEROKU_SCALING'] == 'true'
+      def heroku
+        @heroku ||= Heroku::Client.new(ENV['HEROKU_USER'], ENV['HEROKU_PASS']) if ENV['USE_HEROKU_SCALING'] == 'true'
       end
-        
-      def workers
-        get_heroku
-        ENV['USE_HEROKU_SCALING'] == 'true' ? @heroku.info(ENV['HEROKU_APP'])[:workers].to_i : 1
+      
+      def stack
+        if ENV['USE_HEROKU_SCALING'] == 'true'
+          heroku.list_stacks(ENV['HEROKU_APP']).inject("") do |current,stack| 
+            stack["current"] ? stack["name"] : current
+          end
+        else
+          "current"
+        end
       end
-
+      
+      def get_workers
+        if ENV['USE_HEROKU_SCALING'] == 'true'
+          if stack == "cedar"
+            heroku.ps(ENV['HEROKU_APP']).count { |p| p["process"] =~ /worker\.\d?/ }
+          else
+            heroku.info(ENV['HEROKU_APP'])[:workers].to_i
+          end
+        else
+          1
+        end
+      end
+      
       def workers=(qty)
-        get_heroku
-        @heroku.set_workers(ENV['HEROKU_APP'], qty) if ENV['USE_HEROKU_SCALING'] == 'true'
+        if ENV['USE_HEROKU_SCALING'] == 'true'
+          if stack == "cedar"
+            heroku.ps_scale(ENV['HEROKU_APP'], :type => 'worker', :qty => qty)
+          else
+            heroku.set_workers(ENV['HEROKU_APP'], qty)
+          end
+        end
       end
 
       def job_count
